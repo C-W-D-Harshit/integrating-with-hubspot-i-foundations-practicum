@@ -33,7 +33,8 @@ app.get('/', async (req, res) => {
 
         res.render('homepage', { 
             title: 'HubSpot Contacts', 
-            contacts: contacts || []
+            contacts: contacts || [],
+            success: req.query.success
         });
     } catch (error) {
         console.error('Error fetching contacts:', error.message);
