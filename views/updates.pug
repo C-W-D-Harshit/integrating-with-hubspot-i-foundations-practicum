@@ -1,0 +1,45 @@
+doctype html
+html
+    head
+        title= title
+        meta(name="viewport" content="width=device-width, initial-scale=1")
+        link(rel="stylesheet", href="/css/style.css")
+    body
+        .container
+            h1 Add New Contact
+            
+            if error
+                .alert.alert-error= error
+            
+            if success
+                .alert.alert-success Contact created successfully!
+            
+            .form-wrapper
+                form(method="POST" action="/update-cobj")
+                    .form-group
+                        label.required(for="firstname") First Name
+                        input(type="text" id="firstname" name="firstname" required)
+                        
+                    .form-group
+                        label.required(for="lastname") Last Name
+                        input(type="text" id="lastname" name="lastname" required)
+                        
+                    .form-group
+                        label(for="email") Email
+                        input(type="email" id="email" name="email")
+                        
+                    .form-group
+                        label(for="phone") Phone
+                        input(type="tel" id="phone" name="phone")
+                        
+                    .form-group
+                        label(for="company") Company
+                        input(type="text" id="company" name="company")
+                        
+                    .form-group
+                        label(for="jobtitle") Job Title
+                        input(type="text" id="jobtitle" name="jobtitle")
+                    
+                    .form-actions
+                        button.btn.btn-primary(type="submit") Add Contact
+                        a.btn.btn-secondary(href="/") Return to homepage
