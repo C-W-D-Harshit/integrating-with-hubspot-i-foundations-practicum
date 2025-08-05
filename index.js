@@ -54,5 +54,54 @@ app.get('/update-cobj', (req, res) => {
     });
 });
 
+// POST route for contact creation
+app.post('/update-cobj', async (req, res) => {
+    try {
+        if (!HUBSPOT_ACCESS_TOKEN) {
+            return res.redirect('/update-cobj?error=HubSpot access token not configured');
+        }
+
+        const { firstname, lastname, email, phone, company, jobtitle } = req.body;
+
+        // Validate required fields
+        if (!firstname || !lastname) {
+            return res.redirect('/update-cobj?error=First name and last name are required');
+        }
+
+        // Prepare contact data
+        const contactData = {
+            properties: {
+                firstname: firstname.trim(),
+                lastname: lastname.trim()
+            }
+        };
+
+        // Add optional fields if provided
+        if (email && email.trim()) contactData.properties.email = email.trim();
+        if (phone && phone.trim()) contactData.properties.phone = phone.trim();
+        if (company && company.trim()) contactData.properties.company = company.trim();
+        if (jobtitle && jobtitle.trim()) contactData.properties.jobtitle = jobtitle.trim();
+
+        const createContactUrl = 'https://api.hubapi.com/crm/v3/objects/contacts';
+        const headers = {
+            Authorization: `Bearer ${HUBSPOT_ACCESS_TOKEN}`,
+            'Content-Type': 'application/json'
+        };
+
+        await axios.post(createContactUrl, contactData, { headers });
+        
+        res.redirect('/?success=Contact created successfully');
+    } catch (error) {
+        console.error('Error creating contact:', error.message);
+        
+        let errorMessage = 'Failed to create contact. Please try again.';
+        if (error.response && error.response.data && error.response.data.message) {
+            errorMessage = error.response.data.message;
+        }
+        
+        res.redirect(`/update-cobj?error=${encodeURIComponent(errorMessage)}`);
+    }
+});
+
 // * Localhost
 app.listen(3000, () => console.log('Listening on http://localhost:3000'));
