@@ -8,6 +8,9 @@ html
         .container
             h1 HubSpot Contacts
             
+            if error
+                .alert.alert-error= error
+            
             .table-container
                 table.contacts-table
                     thead
@@ -21,8 +24,24 @@ html
                             th Job Title
                             th Created Date
                     tbody
-                        tr
-                            td(colspan="8") Loading contacts...
+                        if contacts && contacts.length > 0
+                            each contact in contacts
+                                tr
+                                    td= contact.id
+                                    td= contact.properties.firstname || 'N/A'
+                                    td= contact.properties.lastname || 'N/A'
+                                    td= contact.properties.email || 'N/A'
+                                    td= contact.properties.phone || 'N/A'
+                                    td= contact.properties.company || 'N/A'
+                                    td= contact.properties.jobtitle || 'N/A'
+                                    td= new Date(contact.createdAt).toLocaleDateString()
+                        else
+                            tr
+                                td(colspan="8") 
+                                    if error
+                                        | Unable to load contacts
+                                    else
+                                        | No contacts found
             
             .actions
                 a.btn.btn-primary(href="/update-cobj") Add to this table
