@@ -12,9 +12,37 @@ app.use(express.json());
 // HubSpot API configuration
 const HUBSPOT_ACCESS_TOKEN = process.env.HUBSPOT_ACCESS_TOKEN;
 
-// Basic homepage route structure
-app.get('/', (req, res) => {
-    res.render('homepage', { title: 'HubSpot Contacts' });
+// Homepage route with HubSpot contacts API integration
+app.get('/', async (req, res) => {
+    try {
+        if (!HUBSPOT_ACCESS_TOKEN) {
+            return res.render('homepage', { 
+                title: 'HubSpot Contacts', 
+                error: 'HubSpot access token not configured. Please add HUBSPOT_ACCESS_TOKEN to your .env file.' 
+            });
+        }
+
+        const contactsUrl = 'https://api.hubapi.com/crm/v3/objects/contacts';
+        const headers = {
+            Authorization: `Bearer ${HUBSPOT_ACCESS_TOKEN}`,
+            'Content-Type': 'application/json'
+        };
+
+        const response = await axios.get(contactsUrl, { headers });
+        const contacts = response.data.results;
+
+        res.render('homepage', { 
+            title: 'HubSpot Contacts', 
+            contacts: contacts || []
+        });
+    } catch (error) {
+        console.error('Error fetching contacts:', error.message);
+        res.render('homepage', { 
+            title: 'HubSpot Contacts', 
+            error: 'Failed to fetch contacts. Please check your HubSpot access token and try again.',
+            contacts: []
+        });
+    }
 });
 
 // * Localhost
