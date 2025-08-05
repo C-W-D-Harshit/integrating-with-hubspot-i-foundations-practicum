@@ -45,5 +45,14 @@ app.get('/', async (req, res) => {
     }
 });
 
+// Form route for contact creation
+app.get('/update-cobj', (req, res) => {
+    res.render('updates', { 
+        title: 'Add New Contact',
+        success: req.query.success,
+        error: req.query.error
+    });
+});
+
 // * Localhost
 app.listen(3000, () => console.log('Listening on http://localhost:3000'));
