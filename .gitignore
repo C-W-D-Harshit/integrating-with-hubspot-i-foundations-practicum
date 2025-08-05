@@ -1,4 +1,6 @@
-.DS_Store
-node_modules
-package-lock.json
+node_modules/
 .env
+.DS_Store
+*.log
+.claude/
+package-lock.json
