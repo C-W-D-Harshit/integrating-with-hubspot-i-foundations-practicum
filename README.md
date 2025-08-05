@@ -4,7 +4,31 @@ This repository is for the Integrating With HubSpot I: Foundations course. This 
 
 To read the full directions, please go to the [practicum instructions](https://app.hubspot.com/academy/l/tracks/1092124/1093824/5493?language=en).
 
-**Put your HubSpot developer test account custom objects URL link here:** https://app.hubspot.com/contacts/l/objects/${custom-obj-number}/views/all/list
+**Put your HubSpot developer test account custom objects URL link here:** https://app.hubspot.com/contacts/l/objects/your-custom-obj-number/views/all/list
+
+## Application Overview
+This Node.js application demonstrates HubSpot API integration for managing contacts. It includes:
+- Homepage displaying all contacts in a responsive table
+- Form for creating new contacts with validation
+- HubSpot CRM v3 API integration
+- Professional UI with HubSpot orange theme (#ff7a59)
+
+## Setup Instructions
+1. Clone this repository
+2. Run `pnpm install` to install dependencies
+3. Copy `.env.example` to `.env` and add your HubSpot private app access token:
+   ```
+   HUBSPOT_ACCESS_TOKEN=your_actual_token_here
+   ```
+4. Run `node index.js` or `pnpm start`
+5. Open http://localhost:3000 in your browser
+
+## Features
+- **Homepage (/)**: Displays contacts table with ID, First Name, Last Name, Email, Phone, Company, Job Title, and Created Date
+- **Add Contact (/update-cobj)**: Form to create new contacts with firstname and lastname as required fields
+- **API Integration**: Uses HubSpot CRM v3 API for GET and POST operations
+- **Error Handling**: Comprehensive error handling with user-friendly messages
+- **Responsive Design**: Mobile-friendly interface that works on all devices
 
 ___
 ## Tips:
